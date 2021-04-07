@@ -41,6 +41,29 @@ client.connect(err => {
       })
   })
 
+
+
+  const infoCollection = client.db("freshDale").collection("userInfos");
+  app.get('/orders', (req, res) => {
+    // console.log(req.query.email)
+    infoCollection.find({email:req.query.email})
+      .toArray((err, documents) => {
+        res.send(documents);
+      })
+  })
+
+
+  app.post('/addOrders', (req, res) => {
+    const newBooking = req.body;
+    infoCollection.insertOne(newBooking)
+      .then(result => {
+        // console.log(result)
+        res.send(result.insertedCount > 0)
+      })
+    console.log(newBooking);
+  })
+
+
   // app.delete('deleteEvent/:id', (req, res) => {
   //   const id = ObjectID(req.params.id);
   //   console.log('delete this', id);
