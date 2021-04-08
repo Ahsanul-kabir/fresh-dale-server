@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 const MongoClient = require('mongodb').MongoClient;
-const ObjectID = require('mongodb').ObjectID;
+const ObjectId = require('mongodb').ObjectId;
 const cors = require('cors');
 require('dotenv').config()
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.vl9uy.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
@@ -59,13 +59,14 @@ client.connect(err => {
       .then(result => {
         // console.log(result)
         res.send(result.insertedCount > 0)
+        // res.send('Success');
       })
     // console.log(newOrder);
   })
 
 
-  app.delete('deleteEvent/:id', (req, res) => {
-    const id = ObjectID(req.params.id);
+  app.delete('/deleteEvent/:id', (req, res) => {
+    const id = ObjectId(req.params.id);
     console.log('delete this', id);
     eventCollection.findOneAndDelete({ _id: id })
       .then(documents => res.send(!!documents.value))
