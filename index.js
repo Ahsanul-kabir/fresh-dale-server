@@ -54,27 +54,25 @@ client.connect(err => {
 
 
   app.post('/addOrders', (req, res) => {
-    const newBooking = req.body;
-    infoCollection.insertOne(newBooking)
+    const newOrder = req.body;
+    infoCollection.insertOne(newOrder)
       .then(result => {
         // console.log(result)
         res.send(result.insertedCount > 0)
       })
-    console.log(newBooking);
+    // console.log(newOrder);
   })
 
 
-  // app.delete('deleteEvent/:id', (req, res) => {
-  //   const id = ObjectID(req.params.id);
-  //   console.log('delete this', id);
-  //   eventCollection.findOneAndDelete({ _id: id })
-  //     .then(documents => res.send(!!documents.value))
-  // })
+  app.delete('deleteEvent/:id', (req, res) => {
+    const id = ObjectID(req.params.id);
+    console.log('delete this', id);
+    eventCollection.findOneAndDelete({ _id: id })
+      .then(documents => res.send(!!documents.value))
+  })
   // console.log("Database Success");
 
 
 });
 
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
-})
+app.listen(process.env.PORT || port)
